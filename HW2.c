@@ -44,12 +44,97 @@ int main(){
 	}
 	system("pause");/*按鍵操控進入步驟2*/
 	/*Tip 2*/
+	again:
 	system("cls");/*將已經輸出於螢幕的文字清除*/
 	printf("-------------------------------\n");
 	printf("|      a. 畫出直角三角形      |\n");
 	printf("|      b. 顯示乘法表          |\n");
 	printf("|      c. 結束                |\n");
 	printf("-------------------------------\n");/*將主選單顯示於螢幕*/
+	char f;/*宣告字元變數*/ 
+	/*Tip 3*/
+	printf("請輸入一個字元:\n");
+	f=getch();/*輸入字元並設給c，且為隱藏輸入*/
+	if(f=='A'||f=='a')/*如果輸入A或a，則清除螢幕*/ 
+	{
+		system("cls");/*將已經輸出於螢幕的文字清除*/
+		printf("請輸入一個'a'到'n'的字元:\n");
+		int g=getch();/*輸入字元並設給r，且為隱藏輸入*/
+		while(1)
+		{
+			if(g<'c'||g>'n')/*若輸入不為a到n之間，則輸出警告訊息並重新輸入*/ 
+			{
+				printf("X\n");
+				printf("請重新輸入一個'a'到'n'的字元:\n");
+				g=getch();/*輸入字元並設給r，且為隱藏輸入*/
+			}
+			else
+				break;
+		}
+		printf("  %c\n",g);
+		printf(" %c%c\n",g-1,g);
+		printf("%c%c%c\n",g-2,g-1,g);
+		system("pause");/*待按鍵回主選單*/ 
+		system("cls");/*將已經輸出於螢幕的文字清除*/
+		printf("-------------------------------\n");
+		printf("|      a. 畫出直角三角形      |\n");
+		printf("|      b. 顯示乘法表          |\n");
+		printf("|      c. 結束                |\n");
+		printf("-------------------------------\n");/*將主選單顯示於螢幕*/
+	}
+	else if(f=='B'||f=='b')/*假設輸入字元a~z，則輸出99乘法表*/
+	{
+		system("cls");/*將已經輸出於螢幕的文字清除*/
+		printf("請輸入一個1~9的數字:\n");
+		int h=getch();/*輸入字元並設給z，且為隱藏輸入*/;
+		for(i=1;i>0;i++)/*如果不是a~n，則無限迴圈重新輸入*/ 
+		{
+			if(h>48&&h<58)
+			 	break;
+			else	
+				printf("請重新輸入一個1~9的數字:\n");
+				h=getch();
+		}
+		h-=48;
+		for(i=1;i<=z;i++) 
+		{
+			for(j=1;j<=z;j++)
+			{
+				printf("%d*%d=%2d\n",i,j,i*j);
+			}
+		}
+	}
+	else if(f=='C'||f=='c')/*詢問是否繼續*/ 
+	{
+		system("cls");/*將已經輸出於螢幕的文字清除*/
+		printf("Continue?(y/n)\n");
+		system("cls");/*將已經輸出於螢幕的文字清除*/
+		printf("要重新輸入嗎?\n");
+		system("cls");/*將已經輸出於螢幕的文字清除*/
+		int k=getch();
+		if(k=='Y'||k=='y')
+		{
+			system("cls");/*將已經輸出於螢幕的文字清除*/
+			printf("-------------------------------\n");
+			printf("|      a. 畫出直角三角形      |\n");
+			printf("|      b. 顯示乘法表          |\n");
+			printf("|      c. 結束                |\n");
+			printf("-------------------------------\n");/*將主選單顯示於螢幕*/
+		}
+		else if(k=='N'||k=='n')/*結束程式*/ 
+			return 0;
+		else/*重新輸入*/ 
+		{
+			printf("False\a\n");
+			system("cls");/*將已經輸出於螢幕的文字清除*/
+			printf("請重新輸入一個字元:\n");
+			k=getch(); 
+		}
+	}
+	else
+	{
+		goto again;
+	}
 	
 	system("pause");
 	return 0;
