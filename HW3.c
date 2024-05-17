@@ -57,9 +57,73 @@ int main(){
 	printf("|      c. Choose by yourself      |\n");
 	printf("|      d. Exist                   |\n");
 	printf("-----------------------------------\n");//將主選單顯示於螢幕
-	
-	
-	
-	
-	
-} 
+	/*Tip 3*/
+	char seats[ROWS][COLS];
+    char push;
+
+    initial(seats);
+    reserve(seats);
+
+    while(1)
+	{
+        printf("請輸入一個字元:");
+        push=getch();  // 使用 getch 函數來獲取單個字元輸入
+        if(push=='a') 
+		{
+            system("cls");//將已經輸出於螢幕的文字清除
+            displaySeats(seats);//將已預訂座位顯示螢幕 
+            printf("\n按任意鍵返回主選單...\n");
+            getch();  // 等待任意鍵
+            system("cls");//將已經輸出於螢幕的文字清除
+        }
+        else
+        	break;
+    }
+
+    return 0;
+}
+
+void initial(char seats[ROWS][COLS]) 
+{
+	int i,j;
+    for(i=0;i<ROWS;i++) 
+	{
+        for (j=0;j<COLS;j++) 
+		{
+            seats[i][j]='-';  //'-'表示空位
+        }
+    }
+}
+
+void reserve(char seats[ROWS][COLS]) 
+{
+    srand(time(0));  //初始化隨機數生成器
+    int reserved=0;
+    int i,j;
+    while(reserved<RESERVED_SEATS)//建立10個預訂位 
+	{
+        int row=rand() % ROWS;
+        int col=rand() % COLS;//隨機亂數取餘數 
+        if (seats[row][col]=='-')//隨機設置預訂座位 
+		{
+            seats[row][col]='*';  //'*'表示已預訂
+            reserved++;
+        }
+    }
+}
+
+void displaySeats(char seats[ROWS][COLS]) 
+{
+	int i,j;
+    printf("  123456789\n");//顯示排數 
+    for(i=0;i<ROWS;i++) 
+	{
+        printf("%d ",i+1);//顯示列數 
+        for(j=0;j<COLS;j++) 
+		{
+            printf("%c",seats[i][j]);
+        }
+        printf("\n");
+    }
+}
+
