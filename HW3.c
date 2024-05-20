@@ -103,8 +103,8 @@ int main()
                 markSeats(seats,suggested,numSeats, '@');//將尋找到的空位做記號 
                 displaySeats(seats);
                 printf("\n是否滿意這些座位安排？（y/n）：");
-                push=getch();
-                if (push=='y'||push=='Y')//詢問是否滿意 
+                char confirm=getch();
+                if (confirm=='y'||confirm=='Y')//詢問是否滿意 
 				{
                     markSeats(seats,suggested,numSeats,'*');
                     system("cls");//將已經輸出於螢幕的文字清除
@@ -122,7 +122,72 @@ int main()
                 system("cls");//將已經輸出於螢幕的文字清除
             }
     	}
-	}
+    	else if(push=='c') 
+		{
+            system("cls");//將已經輸出於螢幕的文字清除
+            int numSeats;
+            int suggested[4][2];
+            char input[10];
+            printf("請輸入需要的座位數（1~4）：");
+            scanf("%d",&numSeats);
+            if(numSeats<1||numSeats>4)//檢查人數是否介於1~4 
+			{
+                printf("無效的座位數！請按任意鍵返回主選單。\n");
+                getch();
+                system("cls");//將已經輸出於螢幕的文字清除
+                continue;
+            }
+            int valid=1,i;
+            for(i=0;i<numSeats;i++) 
+			{
+                printf("請輸入第%d個座位（格式如1-2）：",i+1);
+                scanf("%s",input);
+                int row,col;
+                if(sscanf(input,"%d-%d",&row,&col)!=2||!ValidSeat(seats,ROWS-row,col-1))  
+				{	//解析行、列數，且確認是否輸入格式錯誤或座位無效 
+                    printf("輸入錯誤！請按任意鍵返回主選單。\n");
+                    valid=0;
+                    getch();
+                    system("cls");//將已經輸出於螢幕的文字清除
+                    break;
+                }
+                suggested[i][0]=row-1;
+                suggested[i][1]=col-1;//儲存以選擇座位 
+            }
+            if(valid)//valid=1，永遠成立 
+			{
+                markSeats(seats,suggested,numSeats,'@');
+                displaySeats(seats);
+                printf("\n按任意鍵確認選擇，並返回主選單...\n");
+                getch();
+                markSeats(seats,suggested,numSeats,'*');
+                system("cls");//將已經輸出於螢幕的文字清除
+            }
+        }
+        else if(push=='d') 
+		{
+            system("cls");//將已經輸出於螢幕的文字清除
+            printf("Continue? (y/n)：");
+            char confirm=getch();
+            if(confirm=='y'||confirm=='Y') 
+			{
+                system("cls");//將已經輸出於螢幕的文字清除
+                continue;
+            } 
+			else if(confirm=='n'||confirm=='N') 
+			{
+                break;
+            }
+			else
+			{
+                printf("\n輸入錯誤！請按任意鍵重新輸入。\n");
+                getch();
+                system("cls");//將已經輸出於螢幕的文字清除
+            }
+		}
+		else//輸入其他字元，則重新輸入 
+			continue;
+	} 
     return 0;
 }
 
@@ -194,7 +259,7 @@ int findSeats(char seats[ROWS][COLS],int numSeats,int suggested[4][2])//尋找空位
             }
         }
     }
-    if(numSeats==4) 
+    if(numSeats==4) //4人時，座位同列4位or相鄰列各2位 
 	{
         for(i=0;i<ROWS-1;i++) 
 		{
@@ -210,7 +275,7 @@ int findSeats(char seats[ROWS][COLS],int numSeats,int suggested[4][2])//尋找空位
                     suggested[2][1]=j;
                     suggested[3][0]=i+1;
                     suggested[3][1]=j+1;
-                    return 1;
+                    return 1;//有空位回傳1 
                 }
             }
         }
@@ -227,4 +292,7 @@ void markSeats(char seats[ROWS][COLS],int suggested[4][2],int numSeats,char mark
     }
 }
 
-
+int ValidSeat(char seats[ROWS][COLS],int row,int col)  
+{	//檢查是否座位無效
+    return row>=0 && row<ROWS && col>=0 && col<COLS && seats[row][col]=='-';
+}
