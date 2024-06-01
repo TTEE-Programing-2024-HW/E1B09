@@ -71,15 +71,16 @@ int main()
 	}
 	system("pause");//按鍵操控進入Tip 2
 	
-	Student students[10];
+	Student students[10];//結構體聲明 
     int numStudents = 0;
     char push;
+    int d;
 	do{
 		/*Tip 2*/
 		system("cls");//將已經輸出於螢幕的文字清除
 		displayMenu();//將主選單顯示於螢幕
 		/*Tip 3*/
-		printf("請輸入一個字元(a~e):");
+		printf("請輸入一個字元(a~e):\n");
 		push=getch();// 使用 getch 函數來獲取單個字元輸入
 		
 		switch(push)
@@ -104,17 +105,26 @@ int main()
 			/*Tip 6*/
 			case 'd':
 				system("cls");//將已經輸出於螢幕的文字清除
-				rankGrades(students,numStudents);
+				rankGrades(students,numStudents);//依學生平均成績排序 
 				system("pause");
 				system("cls");//待按下任何鍵則清除螢幕
 				break;
 			/*Tip 7*/
 			case 'e':
-				break;
+				printf("確定要離開?(y/n)\n");
+				d=getch();
+				
+				if(d=='y' || d=='Y')
+					return 0;//輸入'Y' OR 'y'則離開 
+				else if(d=='n' || d=='N')
+					break;//輸入'N' OR 'n'回到主選單 
+				else
+					printf("請輸入y or n\n");
+					d=getch();//輸入其他，重新輸入 
 			default:
-				printf("Invalid choice. Please try again.\n");
+				printf("Invalid choice. Please try again.\n");//無效輸入，重新開始 
 		}
-	}while(push!='e');
+	}while(push!='e' || (push=='e' && (d=='n' || d=='N')));//輸入a~e以外 or 輸入e且選擇 'N' or 'n' 
 	
 	return 0;
 }
@@ -272,7 +282,7 @@ void sortStudents(Student students[],int numStudents)
 	}
 }
 
-double calculateAverage(Student students)
+double calculateAverage(Student students)//計算學生平均成績 
 {
-	return (students.math+students.physics+students.english)/3.0
+	return (students.math+students.physics+students.english)/3.0;
 }
