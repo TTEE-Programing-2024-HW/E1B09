@@ -15,11 +15,13 @@ typedef struct {
 	int math;
 	int physics;
 	int english;
+	float average;
 } Student;
 
 //函數聲明 
 void displayMenu();
 void enterGrades(Student students[],int *numStudents);
+void displayGrades(Student students[],int numStudents);
 
 int main()
 {
@@ -84,8 +86,13 @@ int main()
 				enterGrades(students,&numStudents);
 				break;
 			case 'b':
+				system("cls");//將已經輸出於螢幕的文字清除
+				enterGrades(students,&numStudents);
+				displayGrades(students,numStudents);
 				break;
 			case 'c':
+				system("cls");//將已經輸出於螢幕的文字清除
+				
 				break;
 			case 'd':
 				break;
@@ -95,7 +102,6 @@ int main()
 				printf("Invalid choice. Please try again.\n");
 		}
 	}while(push<'a' ||push>'e');
-	
 	
 	return 0;
 }
@@ -164,9 +170,26 @@ void enterGrades(Student students[],int *numStudents)
 			printf("請輸入0<英文成績<100:");
 			scanf("%d",&students[i].english);
 		}
+		
+		students[i].average=(students[i].math+students[i].physics+students[i].english)/3.0;
 	}
 	
 	*numStudents=n;
 }
 
-
+void displayGrades(Student students[],int numStudents)
+{
+	int i;
+	
+	if(numStudents==0)
+	{
+		printf("尚未有學生成績");
+		return;
+	}
+	
+	printf("學生姓名\t學號\t數學成績\t物理成績\t英文成績\t平均成績\n");
+	for(i=0;i<numStudents;i++)
+	{
+		printf("%s\t%d\t%d\t%d\t%d\t%.1f",students[i].name,students[i].id,students[i].math,students[i].physics,students[i].english,students[i].average);
+	}
+}
