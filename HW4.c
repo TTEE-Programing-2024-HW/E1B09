@@ -23,6 +23,8 @@ void displayMenu();
 void enterGrades(Student students[],int *numStudents);
 void displayGrades(Student students[],int numStudents);
 void searchGrades(Student students[],int numStudents);
+void rankGrades(Student students[],int numStudents);
+double calculateAverage(Student students);
 
 int main()
 {
@@ -101,6 +103,10 @@ int main()
 				break;
 			/*Tip 6*/
 			case 'd':
+				system("cls");//將已經輸出於螢幕的文字清除
+				rankGrades(students,numStudents);
+				system("pause");
+				system("cls");//待按下任何鍵則清除螢幕
 				break;
 			/*Tip 7*/
 			case 'e':
@@ -226,4 +232,47 @@ void searchGrades(Student students[],int numStudents)
 			printf("您搜尋的資料不存在");
 		}
 	}
+}
+
+void rankGrades(Student students[],int numStudents)
+{
+	int i;
+	
+	if(numStudents==0)
+	{
+		printf("尚未有學生成績");
+		return;
+	}
+	
+	sortStudents(students,numStudents);
+	
+	printf("依平均成績的高低排序:");
+	for(i=0;i<numStudents;i++)
+	{
+		double avg=calculateAverage(students[i]);
+		printf("學生姓名:%s\t學號:%d\t平均成績:%.2f\n",students[i].name,students[i].id,avg);
+	}
+}
+
+void sortStudents(Student students[],int numStudents)
+{
+	int i,j;
+	
+	for(i=0;i<numStudents-1;i++)
+	{
+		for(j=0;j<numStudents-i-1;j++)
+		{
+			if(calculateAverage(students[j])<calculateAverage(students[j + 1]))
+			{
+				Student temp=students[j];
+				students[j]=students[j+1];
+				students[j+1]=temp;
+			}
+		}
+	}
+}
+
+double calculateAverage(Student students)
+{
+	return (students.math+students.physics+students.english)/3.0
 }
